@@ -52,3 +52,15 @@ stages:
 
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       artifact: drop
+    - task: SonarQubePrepare@4
+      inputs:
+        SonarQube: 'Test_Sonar'
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: 'build:test'
+        cliProjectName: 'build:test'
+        cliSources: '.'
+    - task: SonarQubeAnalyze@4
+    - task: SonarQubePublish@4
+      inputs:
+        pollingTimeoutSec: '300'
